@@ -22,18 +22,15 @@ export async function login(req: Request, res: Response) {
     console.log(data);
 
     if (data.url) {
-        const tanto = data.url.split('#')[1]
-
-
-        res.redirect('https://gen-food.vercel.app/callback?'+tanto); // use the redirect API for your server framework
+        res.redirect(data.url); // use the redirect API for your server framework
     }
 }
 
 // Rota para capturar o callback de autenticação
 export async function callback(req: Request, res: Response) {
-    const accessToken = req.query;
+    const accessToken = req.query
 
-    console.log(req.query)
+    console.log(req.url)
 
     res.json(req.query);
 
