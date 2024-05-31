@@ -11,6 +11,7 @@ const provider = "google";
 
 // Rota para iniciar o login com Google
 export async function login(req: Request, res: Response) {
+    
     const { data, error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
@@ -28,7 +29,7 @@ export async function login(req: Request, res: Response) {
 
 // Rota para capturar o callback de autenticação
 export async function callback(req: Request, res: Response) {
-    const accessToken = req.query.access_token;
+    const accessToken = req.body;
     console.log(accessToken)
     res.send(accessToken);
 
