@@ -15,8 +15,7 @@ export async function login(req: Request, res: Response) {
         options: {
             queryParams: {
               access_type: 'offline',
-              prompt: 'consent',
-              scopes: 'repo gist notifications'
+              prompt: 'consent'
             },
         },
     });
