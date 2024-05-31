@@ -16,6 +16,7 @@ export async function login(req: Request, res: Response) {
             queryParams: {
               access_type: 'offline',
               prompt: 'consent',
+              scopes: 'repo gist notifications'
             },
         },
     });
@@ -28,17 +29,48 @@ export async function login(req: Request, res: Response) {
 
 // Rota para capturar o callback de autenticação
 export async function callback(req: Request, res: Response) {
-    const code = req.query.code
-    const next = req.query.next ?? "/"
-  
-    if (code) {
-      const supabase = createClient(supabaseUrl, supabase_key)
-      await supabase.auth.exchangeCodeForSession(code as string)
-    }
-    console.log(code)
-    console.log(next)
 
-    res.json(code)
+    console.log("req.parms: ",req.params )
+    console.log("req.query: ",req.query )
+    console.log("req: ", req )
+
+    const { data: { user } } = await supabase.auth.getUser()
+
+
+    console.log(user);
+    
+    // if (error) {
+    //     return res.status(400).json({ error: error.message });
+    // }
+
+    // // Armazena o token em um cookie seguro
+    // res.cookie('supabaseToken', session.session?.access_token, {
+    //     httpOnly: true, // Garante que o cookie só é acessível pelo HTTP
+    //     secure: process.env.NODE_ENV === 'production', // Define secure como true em produção
+    //     maxAge: 1000 * 60 * 60 * 24, // 1 dia
+    // });
+
+    // Opcionalmente, armazena as informações do usuário no banco de dados
+    //   const { data: user, error: userError } = await supabase.auth.getUser(session.session?.access_token);
+
+    //   if (userError) {
+    //     return res.status(400).json({ error: userError.message });
+    //   }
+
+    //   const existingUser = await prisma.user.findUnique({
+    //     where: { email: user.email },
+    //   });
+
+    //   if (!existingUser) {
+    //     await prisma.user.create({
+    //       data: {
+    //         email: user.email,
+    //         name: user.user_metadata.full_name,
+    //       },
+    //     });
+    //   }
+
+    res.json(data)
 }
 
 export async function updateUser(req: Request, res: Response) {
