@@ -23,23 +23,6 @@ export async function login(req: Request, res: Response) {
         res.redirect(data.url) // use the redirect API for your server framework
     }
 
-
-
-    // const { data, error } = await supabase.auth.signInWithOAuth({
-    //     provider,
-    //     options: {
-    //         queryParams: {
-    //             access_type: 'offline',
-    //             prompt: 'consent',
-    //         }
-    //     }
-    // });
-    // console.log(data)
-    // if (error) {
-    //     return res.status(400).json({ error: error.message });
-    // }
-
-    // res.redirect(data.url);
 };
 
 // Rota para capturar o callback de autenticação
@@ -54,23 +37,7 @@ export async function callback(req: Request, res: Response) {
     }
 
     res.redirect(303, '/dashboard');
-    // res.redirect(303, `/${next.slice(1)}`)
 }
-
-//     const { access_token, refresh_token } = req.params;
-
-//     if (!access_token || !refresh_token) {
-//         return res.status(400).json({ error: 'Missing tokens' });
-//     }
-
-//     const { data, error } = await supabase.auth.getUser(access_token as string);
-//     console.log(data)
-//     if (error) {
-//         return res.status(400).json({ error: error.message });
-//     }
-
-//     res.json({ data });
-// };
 
 
 export async function dashboard(req: Request, res: Response) {
