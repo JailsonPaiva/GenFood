@@ -25,29 +25,19 @@ export async function login (req: Request, res: Response) {
 // Rota para capturar o callback de autenticação
 export async function callback (req: Request, res: Response) {
 
-    const code = req.query.code
-    const next = req.query.next 
-  
-    if (code) {
-      const supabase = createClient(supabaseUrl, supabaseKey)
-      await supabase.auth.exchangeCodeForSession(code as string)
+    const { access_token, refresh_token } = req.params;
+
+    if (!access_token || !refresh_token) {
+        return res.status(400).json({ error: 'Missing tokens' });
     }
-  
-    res.redirect(303, `/dashboard`)
 
-    // const { access_token, refresh_token } = req.query;
+    const { data, error } = await supabase.auth.getUser(access_token as string);
+    console.log(data)
+    if (error) {
+        return res.status(400).json({ error: error.message });
+    }
 
-    // if (!access_token || !refresh_token) {
-    //     return res.status(400).json({ error: 'Missing tokens' });
-    // }
-
-    // const { data, error } = await supabase.auth.getUser(access_token as string);
-    // console.log(data)
-    // if (error) {
-    //     return res.status(400).json({ error: error.message });
-    // }
-
-    // res.json({ data });
+    res.json({ data });
 };
 
 
