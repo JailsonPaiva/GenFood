@@ -1,52 +1,49 @@
-// import { createClient } from '@supabase/supabase-js'
-// import express from 'express'
-// import { Request, Response } from 'express';
+import { createClient } from "@supabase/supabase-js";
+import { Request, Response } from "express";
 
-// const supabase_key = process.env.SUPABASE_KEY || ''
-// const supabaseUrl = process.env.SUPABASE_URL || ''
+const supabase_key = process.env.SUPABASE_KEY as string;
+const supabaseUrl = process.env.SUPABASE_URL as string;
 
-// const router = express.Router()
-// const supabase = createClient(supabaseUrl, supabase_key)
-// const provider = 'google'
+const supabase = createClient(supabaseUrl, supabase_key);
 
+const provider = "google";
 
-// export async function login(req: Request, res: Response) {
+// Rota para iniciar o login com Google
+export async function login(req: Request, res: Response) {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+        provider,
+        options: {
+            redirectTo: "https://gen-food.vercel.app/callback",
+        },
+    });
 
-//     const { data, error } = await supabase.auth.signInWithOAuth({
-//         provider,
-//         options: {
-//             queryParams: {
-//                 access_type: 'offline',
-//                 prompt: 'consent',
-//             }
-//         },
-//     })
+    if (data.url) {
+        res.redirect(data.url); // use the redirect API for your server framework
+    }
+}
 
-//     if (data.url) {
-//         res.redirect(data.url)
-//     }
+// Rota para capturar o callback de autenticação
+export async function callback(req: Request, res: Response) {
+    const code = req.params.code;
+    const next = req.params.next as string;
 
-// }
+    if (code) {
+        await supabase.auth.exchangeCodeForSession(code as string);
+    }
 
+    res.redirect(303, "/updateUser");
+}
 
-// export async function callBack(req: Request, res: Response) {
+export async function updateUser(req: Request, res: Response) {
 
-//     const code = req.query.code
-//     const next = req.query.next ?? '/'
+    const user = await supabase.auth.getUser();
 
-//     if (code) {
-//         const supabase = createClient(supabaseUrl, supabase_key)
-//         await supabase.auth.exchangeCodeForSession(code as string)
-//     }
+    console.log(user);
 
-//     res.redirect(303, '/dashboard')
-// }
+    // try {
 
+    // } catch (error) {
 
-// export async function dashboard(req: Request, res: Response) {
-    
-//     res.json({message: 'deu certo'})
-// }
+    // }
 
-
-// module.exports = router
+}
