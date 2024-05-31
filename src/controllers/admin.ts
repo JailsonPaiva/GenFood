@@ -36,7 +36,8 @@ export async function callback(req: Request, res: Response) {
 
 export async function updateUser(req: Request, res: Response) {
 
-    const user = await supabase.auth.getUser();
+
+    const { data: { user } } = await supabase.auth.getUser()
 
     res.send(user);
 
