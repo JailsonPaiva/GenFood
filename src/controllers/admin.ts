@@ -30,13 +30,12 @@ export async function login(req: Request, res: Response) {
 export async function callback(req: Request, res: Response) {
      // Extraia a parte da URL após o #
   const hash = req.url.split('#')[1];
+  console.log(req.url)
 
   // Parse a query string extraída
   const params = queryString.parse(hash);
-    console.log(params)
   // Acesse o access_token
   const accessToken = params.access_token;
-    console.log(accessToken)
   // Faça o que precisar com o access_token
   res.send(accessToken);
 
