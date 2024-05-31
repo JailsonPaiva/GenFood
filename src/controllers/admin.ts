@@ -30,7 +30,7 @@ export async function login(req: Request, res: Response) {
 export async function callback(req: Request, res: Response) {
      // Extraia a parte da URL após o #
   const hash = req.url.split('#')[1];
-  console.log(req.url)
+  console.log(req.originalUrl)
 
   // Parse a query string extraída
   const params = queryString.parse(hash);
