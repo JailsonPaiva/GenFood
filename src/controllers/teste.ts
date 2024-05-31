@@ -11,52 +11,64 @@ const provider = 'google'
 
 // Rota para iniciar o login com Google
 export async function login(req: Request, res: Response) {
+
     const { data, error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
-            queryParams: {
-                access_type: 'offline',
-                prompt: 'consent',
-            }
-        }
-    });
-    console.log(data)
-    if (error) {
-        return res.status(400).json({ error: error.message });
+            redirectTo: 'https://gen-food.vercel.app/callback',
+        },
+    })
+
+    if (data.url) {
+        res.redirect(data.url) // use the redirect API for your server framework
     }
 
-    res.redirect(data.url);
+
+
+    // const { data, error } = await supabase.auth.signInWithOAuth({
+    //     provider,
+    //     options: {
+    //         queryParams: {
+    //             access_type: 'offline',
+    //             prompt: 'consent',
+    //         }
+    //     }
+    // });
+    // console.log(data)
+    // if (error) {
+    //     return res.status(400).json({ error: error.message });
+    // }
+
+    // res.redirect(data.url);
 };
 
 // Rota para capturar o callback de autenticação
 export async function callback(req: Request, res: Response) {
 
+    const code = req.query.code
+    const next = req.query.next as string
 
-    const hashParams = req.url.split('#')[1];
-    const params = new URLSearchParams(hashParams);
-
-    const access_token = params.get('access_token');
-    const refresh_token = params.get('refresh_token');
-
-    if (!access_token || !refresh_token) {
-        return res.status(400).json({ error: 'Missing tokens' });
+    if (code) {
+        await supabase.auth.exchangeCodeForSession(code as string)
     }
 
+    res.redirect(303, `/${next.slice(1)}`)
+}
 
-    // const { access_token, refresh_token } = req.params;
+//     const { access_token, refresh_token } = req.params;
 
-    // if (!access_token || !refresh_token) {
-    //     return res.status(400).json({ error: 'Missing tokens' });
-    // }
+//     if (!access_token || !refresh_token) {
+//         return res.status(400).json({ error: 'Missing tokens' });
+//     }
 
-    const { data, error } = await supabase.auth.getUser(access_token as string);
-    console.log(data)
-    if (error) {
-        return res.status(400).json({ error: error.message });
-    }
+//     const { data, error } = await supabase.auth.getUser(access_token as string);
+//     console.log(data)
+//     if (error) {
+//         return res.status(400).json({ error: error.message });
+//     }
 
-    res.json({ data });
-};
+//     res.json({ data });
+// };
 
 
 export async function dashboard(req: Request, res: Response) {
