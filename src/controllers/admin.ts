@@ -22,8 +22,10 @@ export async function login(req: Request, res: Response) {
     console.log(data);
 
     if (data.url) {
-        const tanto = data.url.split('#',1)
-        res.redirect(tanto[0]); // use the redirect API for your server framework
+        const tanto = data.url.split('#')[1]
+
+
+        res.redirect('https://gen-food.vercel.app/callback?'+tanto); // use the redirect API for your server framework
     }
 }
 
