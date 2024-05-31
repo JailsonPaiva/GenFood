@@ -29,7 +29,7 @@ export async function login(req: Request, res: Response) {
 // Rota para capturar o callback de autenticação
 export async function callback(req: Request, res: Response) {
     const accessToken = req.query.access_token;
-
+    console.log(accessToken)
     res.send(accessToken);
 
     // const { data: { user } } = await supabase.auth.getUser(jwt);
