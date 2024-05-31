@@ -24,28 +24,55 @@ export async function login(req: Request, res: Response) {
 
 // Rota para capturar o callback de autenticação
 export async function callback(req: Request, res: Response) {
-    const code = req.params.code;
-    const next = req.params.next as string;
-
     const { data: session, error } = await supabase.auth.getSession();
 
-    if (code) {
-        await supabase.auth.exchangeCodeForSession(code as string);
+    if (error) {
+        return res.status(400).json({ error: error.message });
     }
 
-    (req.session as any).supabaseToken = session.session?.access_token;
+    // Armazena o token em um cookie seguro
+    res.cookie('supabaseToken', session.session?.access_token, {
+        httpOnly: true, // Garante que o cookie só é acessível pelo HTTP
+        secure: process.env.NODE_ENV === 'production', // Define secure como true em produção
+        maxAge: 1000 * 60 * 60 * 24, // 1 dia
+    });
 
-    res.redirect(303, "/updateUser");
+    // Opcionalmente, armazena as informações do usuário no banco de dados
+    //   const { data: user, error: userError } = await supabase.auth.getUser(session.session?.access_token);
+
+    //   if (userError) {
+    //     return res.status(400).json({ error: userError.message });
+    //   }
+
+    //   const existingUser = await prisma.user.findUnique({
+    //     where: { email: user.email },
+    //   });
+
+    //   if (!existingUser) {
+    //     await prisma.user.create({
+    //       data: {
+    //         email: user.email,
+    //         name: user.user_metadata.full_name,
+    //       },
+    //     });
+    //   }
+
+    res.redirect("/updateUser");
 }
 
 export async function updateUser(req: Request, res: Response) {
 
-    const UserDentro = await supabase.auth.getUser();
+    const token = req.cookies.supabaseToken;
 
-    console.log(UserDentro);
+    if (!token) {
+        return res.status(401).json({ error: 'Usuário não autenticado' });
+    }
 
-  const user = (req.session as any).supabaseToken;
+    const { data: user, error } = await supabase.auth.getUser(token);
 
-  res.json(user);
+    if (error) {
+        return res.status(400).json({ error: error.message });
+    }
 
+    res.json(user);
 }
