@@ -11,26 +11,23 @@ const provider = "google";
 
 // Rota para iniciar o login com Google
 export async function login(req: Request, res: Response) {
-    
+
     const { data, error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
-            queryParams: {
-              access_type: 'offline',
-              prompt: 'consent'
-            },
+            redirectTo: 'https://gen-food.vercel.app/callback?',
         },
     });
 
     if (data.url) {
-        res.redirect(data.url.replace("#", "?")); // use the redirect API for your server framework
+        res.redirect(data.url); // use the redirect API for your server framework
     }
 }
 
 // Rota para capturar o callback de autenticação
 export async function callback(req: Request, res: Response) {
     const accessToken = req.query.access_token;
-    
+
     console.log(accessToken)
 
     res.send(accessToken);
@@ -39,7 +36,7 @@ export async function callback(req: Request, res: Response) {
 
 
     // console.log(user);
-    
+
     // if (error) {
     //     return res.status(400).json({ error: error.message });
     // }
