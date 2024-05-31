@@ -19,7 +19,6 @@ export async function login(req: Request, res: Response) {
             },
         },
     });
-    console.log(data);
 
     if (data.url) {
         res.redirect(data.url); // use the redirect API for your server framework
@@ -30,7 +29,7 @@ export async function login(req: Request, res: Response) {
 export async function callback(req: Request, res: Response) {
     const {params, query} = req
 
-    res.json({req, params, query})
+    res.send({params, query})
 
     // const { data: { user } } = await supabase.auth.getUser()
 
@@ -69,6 +68,7 @@ export async function callback(req: Request, res: Response) {
     //   }
 
     // res.json(data)
+
 }
 
 export async function updateUser(req: Request, res: Response) {
