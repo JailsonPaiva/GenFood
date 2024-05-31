@@ -1,5 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import { Request, Response } from "express";
+import { Cookie } from "express-session";
 const queryString = require('querystring');
 
 const supabase_key = process.env.SUPABASE_KEY as string;
@@ -13,10 +14,7 @@ const provider = "google";
 export async function login(req: Request, res: Response) {
 
     const { data, error } = await supabase.auth.signInWithOAuth({
-        provider,
-        options: {
-            redirectTo: 'https://gen-food.vercel.app/callback',
-        },
+        provider
     });
 
     console.log(data);
@@ -28,11 +26,13 @@ export async function login(req: Request, res: Response) {
 
 // Rota para capturar o callback de autenticação
 export async function callback(req: Request, res: Response) {
-    const accessToken = req.params.accessToken;
+    // const code = req.query.code as string
+    const code = req.headers['cookie']
+    const next = req.query.next as string
 
-    console.log(req.url)
-
-    res.json(accessToken);
+    console.log(code)
+  
+    res.redirect(303, `/${next.slice(1)}`)
 
     // const { data: { user } } = await supabase.auth.getUser(jwt);
 

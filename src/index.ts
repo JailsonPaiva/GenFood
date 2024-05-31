@@ -12,7 +12,7 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/teste', login)
-app.get('/callback/:access_token', callback)
+app.get('/callback/:accessToken', callback)
 app.get('/updateUser', updateUser)
 
 
