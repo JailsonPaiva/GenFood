@@ -53,7 +53,8 @@ export async function callback(req: Request, res: Response) {
         await supabase.auth.exchangeCodeForSession(code as string)
     }
 
-    res.redirect(303, `/${next.slice(1)}`)
+    res.redirect(303, next && `/${next.slice(1)}`)
+    // res.redirect(303, `/${next.slice(1)}`)
 }
 
 //     const { access_token, refresh_token } = req.params;
