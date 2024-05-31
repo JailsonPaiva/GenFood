@@ -28,10 +28,9 @@ export async function login(req: Request, res: Response) {
 
 // Rota para capturar o callback de autenticação
 export async function callback(req: Request, res: Response) {
+    const {params, query} = req
 
-    console.log("req.parms: ",req.params )
-    console.log("req.query: ",req.query )
-    console.log("req: ", req )
+    res.json({req, params, query})
 
     // const { data: { user } } = await supabase.auth.getUser()
 
