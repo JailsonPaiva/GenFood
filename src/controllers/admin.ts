@@ -34,10 +34,10 @@ export async function callback(req: Request, res: Response) {
     console.log("req.query: ",req.query )
     console.log("req: ", req )
 
-    const { data: { user } } = await supabase.auth.getUser()
+    // const { data: { user } } = await supabase.auth.getUser()
 
 
-    console.log(user);
+    // console.log(user);
     
     // if (error) {
     //     return res.status(400).json({ error: error.message });
@@ -70,7 +70,7 @@ export async function callback(req: Request, res: Response) {
     //     });
     //   }
 
-    res.json(data)
+    // res.json(data)
 }
 
 export async function updateUser(req: Request, res: Response) {
