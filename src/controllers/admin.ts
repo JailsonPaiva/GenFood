@@ -28,16 +28,9 @@ export async function login(req: Request, res: Response) {
 
 // Rota para capturar o callback de autenticação
 export async function callback(req: Request, res: Response) {
-     // Extraia a parte da URL após o #
-  const hash = req.url.split('#')[1];
-  console.log(req.originalUrl)
+    const accessToken = req.query.access_token;
 
-  // Parse a query string extraída
-  const params = queryString.parse(hash);
-  // Acesse o access_token
-  const accessToken = params.access_token;
-  // Faça o que precisar com o access_token
-  res.send(accessToken);
+    res.send(accessToken);
 
     // const { data: { user } } = await supabase.auth.getUser(jwt);
 
