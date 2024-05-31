@@ -63,12 +63,14 @@ export async function callback(req: Request, res: Response) {
 export async function updateUser(req: Request, res: Response) {
 
     const token = req.cookies.supabaseToken;
+    console.log(token)
 
     if (!token) {
         return res.status(401).json({ error: 'Usuário não autenticado' });
     }
 
     const { data: user, error } = await supabase.auth.getUser(token);
+    console.log(user)
 
     if (error) {
         return res.status(400).json({ error: error.message });
