@@ -36,18 +36,15 @@ export async function callback(req: Request, res: Response) {
 
 export async function updateUser(req: Request, res: Response) {
 
+    try {
 
+        const { data, error } = await supabase.auth.getUserIdentities()
+        if (error) {
+            throw error;
+        }
+        res.send(data);
+    } catch (error) {
 
-    const { data, error } = await supabase.auth.updateUser({
-        email: 'jailsonp437@gmail.com'
-    })
-
-    res.send(data);
-
-    // try {
-
-    // } catch (error) {
-
-    // }
+    }
 
 }
