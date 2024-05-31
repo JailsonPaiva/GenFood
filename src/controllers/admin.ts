@@ -23,14 +23,16 @@ export async function login(req: Request, res: Response) {
     });
 
     if (data.url) {
-        res.redirect(data.url); // use the redirect API for your server framework
+        res.redirect(data.url.replace("#", "?")); // use the redirect API for your server framework
     }
 }
 
 // Rota para capturar o callback de autenticação
 export async function callback(req: Request, res: Response) {
-    const accessToken = req.body;
+    const accessToken = req.query.access_token;
+    
     console.log(accessToken)
+
     res.send(accessToken);
 
     // const { data: { user } } = await supabase.auth.getUser(jwt);
