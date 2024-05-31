@@ -31,8 +31,10 @@ export async function callback(req: Request, res: Response) {
     const next = req.query.next as string
 
     console.log(code)
+
+    res.send(code)
   
-    res.redirect(303, `/${next.slice(1)}`)
+    res.redirect(303, `/${next.slice(2)}`)
 
     // const { data: { user } } = await supabase.auth.getUser(jwt);
 
