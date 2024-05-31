@@ -25,8 +25,9 @@ export async function login(req: Request, res: Response) {
 
 // Rota para capturar o callback de autenticação
 export async function callback(req: Request, res: Response) {
-    const data = await supabase.auth.getSession();
+    const data = await supabase.auth.getUser();
     console.log(data);
+
     // if (error) {
     //     return res.status(400).json({ error: error.message });
     // }
