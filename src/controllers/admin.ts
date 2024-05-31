@@ -27,22 +27,31 @@ export async function callback(req: Request, res: Response) {
     const code = req.params.code;
     const next = req.params.next as string;
 
+    const { data: session, error } = await supabase.auth.getSession();
+
     if (code) {
         await supabase.auth.exchangeCodeForSession(code as string);
     }
+
+    (req.session as any).supabaseToken = session.session?.access_token;
 
     res.redirect(303, "/updateUser");
 }
 
 export async function updateUser(req: Request, res: Response) {
 
-    try {
+    const token = req.session.supabaseToken;
 
-        const { data } = await supabase.auth.getUserIdentities()
-
-        res.send(data);
-    } catch (error) {
-
-    }
+    if (!token) {
+        return res.status(401).json({ error: 'Usuário não autenticado' });
+      }
+    
+      const { data: user, error } = await supabase.auth.getUser(token);
+    
+      if (error) {
+        return res.status(400).json({ error: error.message });
+      }
+    
+      res.json(user);
 
 }
