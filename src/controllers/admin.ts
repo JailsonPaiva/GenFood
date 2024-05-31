@@ -15,7 +15,7 @@ export async function login(req: Request, res: Response) {
     const { data, error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
-            redirectTo: 'https://gen-food.vercel.app/callback',
+            redirectTo: 'https://gen-food.vercel.app/callback/',
         },
     });
 
@@ -28,11 +28,11 @@ export async function login(req: Request, res: Response) {
 
 // Rota para capturar o callback de autenticação
 export async function callback(req: Request, res: Response) {
-    const accessToken = req.query
+    const accessToken = req.params.accessToken;
 
     console.log(req.url)
 
-    res.json(req.query);
+    res.json(accessToken);
 
     // const { data: { user } } = await supabase.auth.getUser(jwt);
 
