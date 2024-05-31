@@ -2,7 +2,6 @@ import express from 'express'
 import { Router, Request, Response } from 'express';
 import { login, callback, updateUser } from './controllers/admin'
 import cookieParser from 'cookie-parser';
-import './types/express-session';
 
 const PORT = 3333
 const app = express();
