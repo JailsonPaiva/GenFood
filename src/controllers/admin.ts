@@ -38,10 +38,8 @@ export async function updateUser(req: Request, res: Response) {
 
     try {
 
-        const { data, error } = await supabase.auth.getUserIdentities()
-        if (error) {
-            throw error;
-        }
+        const { data } = await supabase.auth.getUserIdentities()
+
         res.send(data);
     } catch (error) {
 
