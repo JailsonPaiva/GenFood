@@ -30,7 +30,7 @@ export async function callback(req: Request, res: Response) {
 
     console.log(req.query)
 
-    res.send(accessToken);
+    res.json(req.query);
 
     // const { data: { user } } = await supabase.auth.getUser(jwt);
 
