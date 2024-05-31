@@ -35,6 +35,8 @@ export async function callback(req: Request, res: Response) {
       const supabase = createClient(supabaseUrl, supabase_key)
       await supabase.auth.exchangeCodeForSession(code as string)
     }
+    console.log(code)
+    console.log(next)
 
     res.json(code)
 }
