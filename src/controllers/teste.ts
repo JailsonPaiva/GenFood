@@ -53,7 +53,7 @@ export async function callback(req: Request, res: Response) {
         await supabase.auth.exchangeCodeForSession(code as string)
     }
 
-    res.redirect(303, next && `/${next.slice(1)}`)
+    res.redirect(303, '/dashboard');
     // res.redirect(303, `/${next.slice(1)}`)
 }
 
