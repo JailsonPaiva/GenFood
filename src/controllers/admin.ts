@@ -1,5 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import { Request, Response } from "express";
+const queryString = require('querystring');
 
 const supabase_key = process.env.SUPABASE_KEY as string;
 const supabaseUrl = process.env.SUPABASE_URL as string;
@@ -27,11 +28,19 @@ export async function login(req: Request, res: Response) {
 
 // Rota para capturar o callback de autenticação
 export async function callback(req: Request, res: Response) {
-    const {params, query} = req
+     // Extraia a parte da URL após o #
+  const hash = req.url.split('#')[1];
 
-    res.send({params, query})
+  // Parse a query string extraída
+  const params = queryString.parse(hash);
 
-    // const { data: { user } } = await supabase.auth.getUser()
+  // Acesse o access_token
+  const accessToken = params.access_token;
+
+  // Faça o que precisar com o access_token
+  res.send(accessToken);
+  
+    // const { data: { user } } = await supabase.auth.getUser(jwt);
 
 
     // console.log(user);
