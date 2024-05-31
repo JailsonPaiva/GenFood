@@ -15,12 +15,15 @@ export async function login(req: Request, res: Response) {
     const { data, error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
-            redirectTo: 'https://gen-food.vercel.app/callback?',
+            redirectTo: 'https://gen-food.vercel.app/callback',
         },
     });
 
+    console.log(data);
+
     if (data.url) {
-        res.redirect(data.url); // use the redirect API for your server framework
+        const tanto = data.url.split('#',1)
+        res.redirect(tanto[0]); // use the redirect API for your server framework
     }
 }
 
