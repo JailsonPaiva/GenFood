@@ -33,13 +33,13 @@ export async function callback(req: Request, res: Response) {
 
   // Parse a query string extraída
   const params = queryString.parse(hash);
-
+    console.log(params)
   // Acesse o access_token
   const accessToken = params.access_token;
-
+    console.log(accessToken)
   // Faça o que precisar com o access_token
   res.send(accessToken);
-  
+
     // const { data: { user } } = await supabase.auth.getUser(jwt);
 
 
