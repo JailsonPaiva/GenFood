@@ -38,7 +38,7 @@ export async function updateUser(req: Request, res: Response) {
 
     const user = await supabase.auth.getUser();
 
-    console.log(user);
+    res.send(user);
 
     // try {
 

@@ -12,7 +12,7 @@ app.use(express.json())
 
 app.get('/teste', login)
 app.get('/callback', callback)
-app.post('/updateUser',updateUser)
+app.get('/updateUser',updateUser)
 
 
 
