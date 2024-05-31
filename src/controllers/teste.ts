@@ -10,9 +10,15 @@ const provider = 'google'
 
 
 // Rota para iniciar o login com Google
-export async function login (req: Request, res: Response) {
+export async function login(req: Request, res: Response) {
     const { data, error } = await supabase.auth.signInWithOAuth({
-        provider
+        provider,
+        options: {
+            queryParams: {
+                access_type: 'offline',
+                prompt: 'consent',
+            }
+        }
     });
     console.log(data)
     if (error) {
@@ -23,7 +29,7 @@ export async function login (req: Request, res: Response) {
 };
 
 // Rota para capturar o callback de autenticação
-export async function callback (req: Request, res: Response) {
+export async function callback(req: Request, res: Response) {
 
     const { access_token, refresh_token } = req.params;
 
@@ -41,6 +47,6 @@ export async function callback (req: Request, res: Response) {
 };
 
 
-export async function dashboard(req : Request, res: Response) {
+export async function dashboard(req: Request, res: Response) {
     res.json({ title: 'teste' })
 }
