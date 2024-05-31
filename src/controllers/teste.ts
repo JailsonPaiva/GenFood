@@ -31,11 +31,23 @@ export async function login(req: Request, res: Response) {
 // Rota para capturar o callback de autenticação
 export async function callback(req: Request, res: Response) {
 
-    const { access_token, refresh_token } = req.params;
+
+    const hashParams = req.url.split('#')[1];
+    const params = new URLSearchParams(hashParams);
+
+    const access_token = params.get('access_token');
+    const refresh_token = params.get('refresh_token');
 
     if (!access_token || !refresh_token) {
         return res.status(400).json({ error: 'Missing tokens' });
     }
+
+
+    // const { access_token, refresh_token } = req.params;
+
+    // if (!access_token || !refresh_token) {
+    //     return res.status(400).json({ error: 'Missing tokens' });
+    // }
 
     const { data, error } = await supabase.auth.getUser(access_token as string);
     console.log(data)
