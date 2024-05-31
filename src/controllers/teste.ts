@@ -45,8 +45,9 @@ export async function login(req: Request, res: Response) {
 // Rota para capturar o callback de autenticação
 export async function callback(req: Request, res: Response) {
 
-    const code = req.query.code
-    const next = req.query.next as string
+    const code = req.params.code
+    const next = req.params.next as string
+
 
     if (code) {
         await supabase.auth.exchangeCodeForSession(code as string)
