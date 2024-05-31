@@ -16,6 +16,7 @@ export async function login(req: Request, res: Response) {
             redirectTo: "https://gen-food.vercel.app/callback",
         },
     });
+    console.log(data);
 
     if (data.url) {
         res.redirect(data.url); // use the redirect API for your server framework
@@ -24,18 +25,18 @@ export async function login(req: Request, res: Response) {
 
 // Rota para capturar o callback de autenticação
 export async function callback(req: Request, res: Response) {
-    const { data: session, error } = await supabase.auth.getSession();
-    console.log(session);
-    if (error) {
-        return res.status(400).json({ error: error.message });
-    }
+    const data = await supabase.auth.getSession();
+    console.log(data);
+    // if (error) {
+    //     return res.status(400).json({ error: error.message });
+    // }
 
-    // Armazena o token em um cookie seguro
-    res.cookie('supabaseToken', session.session?.access_token, {
-        httpOnly: true, // Garante que o cookie só é acessível pelo HTTP
-        secure: process.env.NODE_ENV === 'production', // Define secure como true em produção
-        maxAge: 1000 * 60 * 60 * 24, // 1 dia
-    });
+    // // Armazena o token em um cookie seguro
+    // res.cookie('supabaseToken', session.session?.access_token, {
+    //     httpOnly: true, // Garante que o cookie só é acessível pelo HTTP
+    //     secure: process.env.NODE_ENV === 'production', // Define secure como true em produção
+    //     maxAge: 1000 * 60 * 60 * 24, // 1 dia
+    // });
 
     // Opcionalmente, armazena as informações do usuário no banco de dados
     //   const { data: user, error: userError } = await supabase.auth.getUser(session.session?.access_token);
@@ -57,7 +58,7 @@ export async function callback(req: Request, res: Response) {
     //     });
     //   }
 
-    res.redirect("/updateUser");
+    res.json(data)
 }
 
 export async function updateUser(req: Request, res: Response) {
