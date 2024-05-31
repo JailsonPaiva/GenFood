@@ -9,7 +9,7 @@ const route = Router()
 
 app.use(express.json())
 app.use(cookieParser());
-
+app.use(express.urlencoded({ extended: true }));
 
 app.get('/teste', login)
 app.get('/callback', callback)
