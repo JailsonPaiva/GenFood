@@ -2,7 +2,7 @@ import express from 'express'
 import { Router, Request, Response } from 'express';
 
 // import  { login }  from './controllers/admin'
-import { login, callBack } from './controllers/teste'
+import { login, callback } from './controllers/teste'
 
 const PORT = 3333
 const app = express();
@@ -12,7 +12,7 @@ app.use(express.json())
 
 
 app.get('/teste', login)
-app.get('/teste/callback', callBack)
+app.get('/callback', callback)
 
 
 

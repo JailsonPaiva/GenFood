@@ -23,7 +23,7 @@ export async function login (req: Request, res: Response) {
 };
 
 // Rota para capturar o callback de autenticação
-export async function callBack (req: Request, res: Response) {
+export async function callback (req: Request, res: Response) {
     const { access_token, refresh_token } = req.query;
 
     if (!access_token || !refresh_token) {
@@ -31,7 +31,7 @@ export async function callBack (req: Request, res: Response) {
     }
 
     const { data, error } = await supabase.auth.getUser(access_token as string);
-
+    console.log(data)
     if (error) {
         return res.status(400).json({ error: error.message });
     }
