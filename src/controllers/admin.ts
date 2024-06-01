@@ -30,16 +30,16 @@ export async function loadUser(req: Request, res: Response) {
     const token = req.body.access_token
 
     try {
-        const { data } = await supabase.auth.getUser(token);
+        const { data:user } = await supabase.auth.getUser(token);
         
-        if (!data.user) {
-            return res.status(401).json({ data, token });
+        if (!user.user) {
+            return res.status(401).send({ message: 'Usuário não autenticado!' });
         }
 
-        const { avatar_url, email, name, picture } = data.user.user_metadata;
+        const { avatar_url, email, name, picture } = user.user.user_metadata;
 
         res.status(201).send({ avatar_url, email, name, picture })
     } catch (error) {
-        res.status(500).json({ error })
+        res.status(500).send({ error })
     }
 }
