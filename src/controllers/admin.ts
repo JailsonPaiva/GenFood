@@ -26,7 +26,7 @@ export async function login(req: Request, res: Response) {
 
 // Rota para capturar o callback de autenticação
 
-export async function updateUser(req: Request, res: Response) {
+export async function loadUser(req: Request, res: Response) {
     const token = req.body.access_token
 
     try {
