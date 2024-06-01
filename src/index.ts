@@ -11,7 +11,7 @@ app.use(express.json())
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
-app.post('/teste', login)
+app.get('/teste', login)
 app.post('/callback', callback)
 app.post('/updateUser', updateUser)
 
