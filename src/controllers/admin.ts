@@ -1,7 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
 import { Request, Response } from "express";
-import { Cookie } from "express-session";
-const queryString = require('querystring');
 
 const supabase_key = process.env.SUPABASE_KEY as string;
 const supabaseUrl = process.env.SUPABASE_URL as string;
@@ -16,7 +14,10 @@ const provider = "google";
 export async function login(req: Request, res: Response) {
 
     const { data, error } = await supabase.auth.signInWithOAuth({
-        provider
+        provider,
+        options: {
+            redirectTo: 'https://c62e-191-223-103-151.ngrok-free.app/load',
+        },
     });
 
     if (data.url) {
@@ -30,8 +31,8 @@ export async function loadUser(req: Request, res: Response) {
     const token = req.body.access_token
 
     try {
-        const { data:user } = await supabase.auth.getUser(token);
-        
+        const { data: user } = await supabase.auth.getUser(token);
+
         if (!user.user) {
             return res.status(401).send({ message: 'Usuário não autenticado!' });
         }
