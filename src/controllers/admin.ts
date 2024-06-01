@@ -16,7 +16,7 @@ export async function login(req: Request, res: Response) {
     const { data, error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
-            redirectTo: 'https://c62e-191-223-103-151.ngrok-free.app/load',
+            redirectTo: 'https://client-gen-food.vercel.app/Loading',
         },
     });
 
