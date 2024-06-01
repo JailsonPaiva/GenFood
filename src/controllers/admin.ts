@@ -20,8 +20,6 @@ export async function login(req: Request, res: Response) {
         },
     });
 
-    console.log(data);
-
     if (data.url) {
         res.redirect(data.url); // use the redirect API for your server framework
     }
