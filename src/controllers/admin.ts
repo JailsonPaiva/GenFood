@@ -14,10 +14,7 @@ const provider = "google";
 export async function login(req: Request, res: Response) {
 
     const { data, error } = await supabase.auth.signInWithOAuth({
-        provider,
-        options: {
-            redirectTo: "https://client-gen-food.vercel.app/",
-        },
+        provider
     });
 
     if (data.url) {
