@@ -16,7 +16,7 @@ export async function login(req: Request, res: Response) {
     const { data, error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
-            redirectTo: "https://gen-food.vercel.app/callback",
+            redirectTo: "https://client-gen-food.vercel.app/",
         },
     });
 
@@ -29,33 +29,20 @@ export async function login(req: Request, res: Response) {
 
 // Rota para capturar o callback de autenticação
 export async function callback(req: Request, res: Response) {
-    // const code = req.query.code as string
-    const code = req.headers['cookie']
-    const next = req.query.next as string
 
-    console.log(code)
+    const jwt = req.body.access_token
 
-    res.send(code)
-  
-    res.redirect(303, `/${next.slice(2)}`)
-
-    // const { data: { user } } = await supabase.auth.getUser(jwt);
+    const { data } = await supabase.auth.getUser(jwt);
 
 
-    // console.log(user);
-
-    // if (error) {
-    //     return res.status(400).json({ error: error.message });
-    // }
-
-    // // Armazena o token em um cookie seguro
+    // Armazena o token em um cookie seguro
     // res.cookie('supabaseToken', session.session?.access_token, {
     //     httpOnly: true, // Garante que o cookie só é acessível pelo HTTP
     //     secure: process.env.NODE_ENV === 'production', // Define secure como true em produção
     //     maxAge: 1000 * 60 * 60 * 24, // 1 dia
     // });
 
-    // Opcionalmente, armazena as informações do usuário no banco de dados
+    // // Opcionalmente, armazena as informações do usuário no banco de dados
     //   const { data: user, error: userError } = await supabase.auth.getUser(session.session?.access_token);
 
     //   if (userError) {
@@ -75,13 +62,13 @@ export async function callback(req: Request, res: Response) {
     //     });
     //   }
 
-    // res.json(data)
-
+    res.redirect('/updateUser');
 }
 
 export async function updateUser(req: Request, res: Response) {
 
-    const token = req.cookies.supabaseToken;
+    const token = req.body.access_token
+
     console.log(token)
 
     if (!token) {
