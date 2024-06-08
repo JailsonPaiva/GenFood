@@ -8,7 +8,9 @@ const supabase = createClient(supabaseUrl, supabase_key);
 
 const provider = "google";
 
-// // Rota para iniciar o login com Google
+
+
+// Rota para iniciar o login com Google
 export async function login(req: Request, res: Response) {
 
     const { data, error } = await supabase.auth.signInWithOAuth({

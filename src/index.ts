@@ -1,24 +1,22 @@
-import express from 'express';
-import { loadUser, login } from './controllers/admin';
-// import { googleAuth } from './middleware/googleAuth';
+import express from 'express'
+import { Router, Request, Response } from 'express';
+import { login, loadUser } from './controllers/admin'
 import cookieParser from 'cookie-parser';
-import cors from 'cors';
+const cors = require('cors');
 
-const PORT = 3333;
+const PORT = 3333
 const app = express();
-
+const route = Router()
 app.use(cors());
-app.use(express.json());
+
+
+app.use(express.json())
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
-// Verifique se o middleware googleAuth não está bloqueando requisições OPTIONS
+app.get('/login', login)
+app.post('/loadUser', loadUser)
 
-// app.use('*', googleAuth);
 
-app.get('/login', login);
-app.post('/loadUser', loadUser);
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+app.listen(PORT, () => `server running on port ${PORT}`)
