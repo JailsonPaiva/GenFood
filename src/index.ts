@@ -3,6 +3,7 @@ import { loadUser } from './controllers/admin'
 import { googleAuth } from './middleware/googleAuth'
 import cookieParser from 'cookie-parser';
 import cors from 'cors'
+import { access } from 'fs';
 
 const PORT = 3333
 const app = express();
@@ -11,8 +12,9 @@ const corsOptions = {
     origin: 'https://client-gen-food.vercel.app',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
-    optionsSuccessStatus: 204
-  };
+    optionsSuccessStatus: 204,
+    accessControlAllowOrigin: true
+};
 app.use(cors(corsOptions));
 
 
