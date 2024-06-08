@@ -2,8 +2,9 @@ import express from 'express'
 import { loadUser } from './controllers/admin'
 import { googleAuth } from './middleware/googleAuth'
 import cookieParser from 'cookie-parser';
-import cors from 'cors'
-import { access } from 'fs';
+// import cors from 'cors'
+const cors = require('cors')
+
 
 const PORT = 3333
 const app = express();
@@ -15,7 +16,7 @@ const corsOptions = {
     optionsSuccessStatus: 204,
     accessControlAllowOrigin: true
 };
-app.use(cors(corsOptions));
+app.use(cors());
 
 
 app.use(express.json())
