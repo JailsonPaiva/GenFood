@@ -6,24 +6,22 @@ const supabaseUrl = process.env.SUPABASE_URL as string;
 
 const supabase = createClient(supabaseUrl, supabase_key);
 
-// const provider = "google";
-
-
+const provider = "google";
 
 // // Rota para iniciar o login com Google
-// export async function login(req: Request, res: Response) {
+export async function login(req: Request, res: Response) {
 
-//     const { data, error } = await supabase.auth.signInWithOAuth({
-//         provider,
-//         options: {
-//             redirectTo: 'https://client-gen-food.vercel.app/Loading',
-//         },
-//     });
+    const { data, error } = await supabase.auth.signInWithOAuth({
+        provider,
+        options: {
+            redirectTo: 'https://client-gen-food.vercel.app/Loading',
+        },
+    });
 
-//     if (data.url) {
-//         res.redirect(data.url); // use the redirect API for your server framework
-//     }
-// }
+    if (data.url) {
+        res.redirect(data.url); // use the redirect API for your server framework
+    }
+}
 
 // Rota para capturar o callback de autenticação
 

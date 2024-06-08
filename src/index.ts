@@ -1,6 +1,6 @@
 import express from 'express';
-import { loadUser } from './controllers/admin';
-import { googleAuth } from './middleware/googleAuth';
+import { loadUser, login } from './controllers/admin';
+// import { googleAuth } from './middleware/googleAuth';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 
@@ -14,8 +14,9 @@ app.use(express.urlencoded({ extended: true }));
 
 // Verifique se o middleware googleAuth não está bloqueando requisições OPTIONS
 
-app.use('*', googleAuth);
+// app.use('*', googleAuth);
 
+app.get('/login', login);
 app.post('/loadUser', loadUser);
 
 app.listen(PORT, () => {
