@@ -1,32 +1,37 @@
-import express from 'express'
-import { loadUser } from './controllers/admin'
-import { googleAuth } from './middleware/googleAuth'
+import express from 'express';
+import { loadUser } from './controllers/admin';
+import { googleAuth } from './middleware/googleAuth';
 import cookieParser from 'cookie-parser';
-// import cors from 'cors'
-const cors = require('cors')
+const cors = require('cors');
 
-
-const PORT = 3333
+const PORT = 3333;
 const app = express();
 
 const corsOptions = {
-    origin: 'https://client-gen-food.vercel.app',
+    origin: '*', // Permite todas as origens. Ajuste conforme necessário.
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
-    optionsSuccessStatus: 204,
-    accessControlAllowOrigin: true
+    optionsSuccessStatus: 204
 };
-app.use(cors());
 
-
-app.use(express.json())
+app.use(cors(corsOptions));
+app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('*', googleAuth)
+// Verifique se o middleware googleAuth não está bloqueando requisições OPTIONS
+app.use((req, res, next) => {
+    if (req.method === 'OPTIONS') {
+        res.sendStatus(204);
+    } else {
+        next();
+    }
+});
 
-app.post('/loadUser', loadUser)
+app.use('*', googleAuth);
 
+app.post('/loadUser', loadUser);
 
-
-app.listen(PORT, () => `server running on port ${PORT}`)
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
