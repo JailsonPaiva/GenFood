@@ -1,29 +1,29 @@
 import { createClient } from "@supabase/supabase-js";
 import { Request, Response } from "express";
 
-const supabase_key = process.env.SUPABASE_KEY as string;
-const supabaseUrl = process.env.SUPABASE_URL as string;
+const supabase_key = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFheW5iemx2YnVvY2J5amFtcnFxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTcxNzIwOTQsImV4cCI6MjAzMjc0ODA5NH0.bXpd-t5IJGNwr-ufASliPakGKJ0R-idUKRYhxlZaBB0'
+const supabaseUrl = 'https://aaynbzlvbuocbyjamrqq.supabase.co'
 
 const supabase = createClient(supabaseUrl, supabase_key);
 
-const provider = "google";
+// const provider = "google";
 
 
 
-// Rota para iniciar o login com Google
-export async function login(req: Request, res: Response) {
+// // Rota para iniciar o login com Google
+// export async function login(req: Request, res: Response) {
 
-    const { data, error } = await supabase.auth.signInWithOAuth({
-        provider,
-        options: {
-            redirectTo: 'https://client-gen-food.vercel.app/Loading',
-        },
-    });
+//     const { data, error } = await supabase.auth.signInWithOAuth({
+//         provider,
+//         options: {
+//             redirectTo: 'https://client-gen-food.vercel.app/Loading',
+//         },
+//     });
 
-    if (data.url) {
-        res.redirect(data.url); // use the redirect API for your server framework
-    }
-}
+//     if (data.url) {
+//         res.redirect(data.url); // use the redirect API for your server framework
+//     }
+// }
 
 // Rota para capturar o callback de autenticação
 
