@@ -1,8 +1,8 @@
 import { createClient } from "@supabase/supabase-js";
 import { Request, Response } from "express";
 
-const supabase_key = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFheW5iemx2YnVvY2J5amFtcnFxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTcxNzIwOTQsImV4cCI6MjAzMjc0ODA5NH0.bXpd-t5IJGNwr-ufASliPakGKJ0R-idUKRYhxlZaBB0'
-const supabaseUrl = 'https://aaynbzlvbuocbyjamrqq.supabase.co'
+const supabase_key = process.env.SUPABASE_KEY as string;
+const supabaseUrl = process.env.SUPABASE_URL as string;
 
 const supabase = createClient(supabaseUrl, supabase_key);
 
