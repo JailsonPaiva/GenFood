@@ -22,12 +22,15 @@ app.use(express.urlencoded({ extended: true }));
 // Verifique se o middleware googleAuth não está bloqueando requisições OPTIONS
 app.use((req, res, next) => {
     if (req.method === 'OPTIONS') {
-        res.sendStatus(204);
+        res.header('Access-Control-Allow-Origin', corsOptions.origin);
+        res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE');
+        res.header('Access-Control-Allow-Headers', 'Content-Type');
+        res.header('Access-Control-Allow-Credentials', 'true');
+        return res.sendStatus(204);
     } else {
         next();
     }
 });
-
 app.use('*', googleAuth);
 
 app.post('/loadUser', loadUser);
